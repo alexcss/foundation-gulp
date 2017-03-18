@@ -2,6 +2,7 @@
 
 var gulp = require('gulp'),
 	watch = require('gulp-watch'),
+	babel = require('gulp-babel'),
 	include = require("gulp-include"),
 	prefixer = require('gulp-autoprefixer'),
 	uglify = require('gulp-uglify'),
@@ -13,8 +14,11 @@ var gulp = require('gulp'),
 	browserSync = require("browser-sync"),
 	notify = require('gulp-notify'),
 	argv = require('yargs').argv,
-	gulpif = require('gulp-if'),
+	$if = require('gulp-if'),
 	reload = browserSync.reload;
+
+// Check for --production flag
+var isProduction = !!(argv.production);
 
 var path = {
 	build: {
@@ -41,7 +45,6 @@ var path = {
 	},
 	clean: './build',
 	favicons: ['src/favicon.png','src/apple-touch-icon.png'],
-	//bootstrap: './node_modules/bootstrap-sass/assets',
 	foundation: './node_modules/foundation-sites/',
 	motionui: './node_modules/motion-ui/src',
 	whatinput: './node_modules/what-input/dist/',
@@ -102,7 +105,10 @@ gulp.task('js:build', function () {
 			)
 		)
 		.pipe(
-			gulpif(argv.production,
+			$if(isProduction, babel({"presets": ["es2015"]}))
+		)
+		.pipe(
+			$if(isProduction,
 				uglify().on('error', notify.onError(
 						{
 							message: "<%= error.message %>",
@@ -112,7 +118,9 @@ gulp.task('js:build', function () {
 				)
 			)
 		)
-		.pipe(sourcemaps.write(path.sourcemaps))
+		.pipe(
+			$if(!isProduction, sourcemaps.write(path.sourcemaps))
+		)
 		.pipe(gulp.dest(path.build.js))
 		.pipe(notify({ message: 'JS task complete', sound: false, onLast: true }))
 		.pipe(reload({stream: true}));
@@ -135,7 +143,9 @@ gulp.task('style:build', function () {
 			)
 		))
 		.pipe(prefixer())
-		.pipe(sourcemaps.write(path.sourcemaps))
+		.pipe(
+			$if(!isProduction, sourcemaps.write(path.sourcemaps))
+		)
 		// .pipe(cssmin())
 		.pipe(gulp.dest(path.build.css))
 		.pipe(notify({ message: 'Styles task complete', sound: false, onLast: true }))
