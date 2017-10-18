@@ -95,7 +95,7 @@ gulp.task('js:build', function () {
 		.pipe(include({
 				extensions: "js",
 				hardFail: true,
-				includePaths: [path.slick, path.foundation + '/js', path.whatinput, path.jquery, path.src.jsfolder]
+				includePaths: [path.slick, path.foundation + 'dist//js/plugins', path.whatinput, path.jquery, path.src.jsfolder]
 			}).on('error', notify.onError(
 					{
 						message: "<%= error.message %>",
@@ -104,9 +104,9 @@ gulp.task('js:build', function () {
 				)
 			)
 		)
-		.pipe(
-			$if(isProduction, babel({"presets": ["es2015"]}))
-		)
+//		.pipe(
+//			$if(isProduction, babel({"presets": ["es2015"]}))
+		//)
 		.pipe(
 			$if(isProduction,
 				uglify().on('error', notify.onError(
