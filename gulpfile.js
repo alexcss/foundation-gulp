@@ -2,7 +2,6 @@
 
 var gulp = require('gulp'),
 	watch = require('gulp-watch'),
-	babel = require('gulp-babel'),
 	include = require("gulp-include"),
 	prefixer = require('gulp-autoprefixer'),
 	uglify = require('gulp-uglify'),
@@ -26,7 +25,7 @@ var path = {
 		js: 'build/assets/js/',
 		css: 'build/assets/css/',
 		img: 'build/assets/img/',
-		fonts: 'build/fonts/'
+		fonts: 'build/assets/fonts/'
 	},
 	src: {
 		html: ['src/**/*.html', '!src/templates{,/**}'],
@@ -34,14 +33,14 @@ var path = {
 		jsfolder: 'src/assets/js/',
 		style: 'src/assets/style/app.scss',
 		img: 'src/assets/img/**/*.*',
-		fonts: 'src/fonts/**/*.*'
+		fonts: 'src/assets/fonts/**/*.*'
 	},
 	watch: {
 		html: 'src/**/*.html',
 		js: 'src/assets/js/**/*.js',
 		style: 'src/assets/style/**/*.*',
 		img: 'src/assets/img/**/*.*',
-		fonts: 'src/fonts/**/*.*'
+		fonts: 'src/assets/fonts/**/*.*'
 	},
 	clean: './build',
 	favicons: ['src/favicon.png','src/apple-touch-icon.png'],
