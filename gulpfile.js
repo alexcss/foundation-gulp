@@ -33,7 +33,8 @@ var path = {
 		jsfolder: 'src/assets/js/',
 		style: 'src/assets/style/app.scss',
 		img: 'src/assets/img/**/*.*',
-		fonts: 'src/assets/fonts/**/*.*'
+		fonts: 'src/assets/fonts/**/*.*',
+		favicons: ['src/favicon.png','src/apple-touch-icon.png'],
 	},
 	watch: {
 		html: 'src/**/*.html',
@@ -42,8 +43,7 @@ var path = {
 		img: 'src/assets/img/**/*.*',
 		fonts: 'src/assets/fonts/**/*.*'
 	},
-	clean: './build',
-	favicons: ['src/favicon.png','src/apple-touch-icon.png'],
+	clean: './build',	
 	foundation: './node_modules/foundation-sites/',
 	motionui: './node_modules/motion-ui/src',
 	whatinput: './node_modules/what-input/dist/',
@@ -103,9 +103,6 @@ gulp.task('js:build', function () {
 				)
 			)
 		)
-//		.pipe(
-//			$if(isProduction, babel({"presets": ["es2015"]}))
-		//)
 		.pipe(
 			$if(isProduction,
 				uglify().on('error', notify.onError(
@@ -168,12 +165,18 @@ gulp.task('fonts:build', function() {
 		.pipe(gulp.dest(path.build.fonts))
 });
 
+gulp.task('favicons:build', function() {
+	gulp.src(path.src.favicons)
+		.pipe(gulp.dest(path.build.html))
+});
+
 gulp.task('build', [
 	'html:build',
 	'style:build',
 	'js:build',
 	'image:build',
-	'fonts:build'
+	'fonts:build',
+	'favicons:build'
 ]);
 
 
@@ -192,6 +195,9 @@ gulp.task('watch', function(){
 	});
 	watch(path.watch.fonts, function(event, cb) {
 		gulp.start('fonts:build');
+	});
+	watch(path.src.favicons, function(event, cb) {
+		gulp.start('favicons:build');
 	});
 });
 
