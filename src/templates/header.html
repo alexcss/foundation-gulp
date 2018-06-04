@@ -1,16 +1,14 @@
 <header class="ba-header">
 	<div class="row column">
 		<div class="top-bar">
-			<div class="top-bar-title">
+			<div class="top-bar-left">
 				<a class="ba-logo" href="index.html">
 					Logo
 				</a>
 			</div>
-			<span class="float-right" data-responsive-toggle="responsive-menu" data-hide-for="medium">
-				<button class="menu-icon dark" type="button" data-toggle></button>
-			</span>
-			<div id="responsive-menu">
-				<div class="top-bar-right">
+			<!-- ./top-bar-left -->
+			<div class="top-bar-right">
+				<nav class="ba-nav show-for-medium">
 					<ul class="ba-main-menu menu vertical medium-horizontal">
 						<li class="active"><a href="index.html">HOME</a></li>
 						<li><a href="about.html">ABOUT</a></li>
@@ -18,8 +16,12 @@
 						<li><a href="services.html">SERVICES</a></li>
 						<li><a href="contacts.html">CONTATCS</a></li>
 					</ul>
-				</div>
+				</nav>
+				<button class="menu-icon dark hide-for-medium" data-toggle="offCanvas" aria-label="Menu"></button>				
 			</div>
+			<!-- /.top-bar-right -->
 		</div>
+		<!-- /.top-bar -->		
 	</div>
+	<!-- /.row -->	
 </header>

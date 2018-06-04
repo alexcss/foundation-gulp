@@ -5,6 +5,7 @@ var gulp = require('gulp'),
 	include = require("gulp-include"),
 	prefixer = require('gulp-autoprefixer'),
 	uglify = require('gulp-uglify'),
+	htmlmin = require('gulp-htmlmin'),
 	sass = require('gulp-sass'),
 	sourcemaps = require('gulp-sourcemaps'),
 	imagemin = require('gulp-imagemin'),
@@ -16,8 +17,8 @@ var gulp = require('gulp'),
 	$if = require('gulp-if'),
 	reload = browserSync.reload;
 
-// Check for --production flag
-var isProduction = !!(argv.production);
+// Check for --p flag
+var isProduction = !!(argv.p);
 
 var path = {
 	build: {
@@ -84,6 +85,11 @@ gulp.task('html:build', function () {
 				)
 			)
 		)
+		.pipe(
+			$if(isProduction,
+				htmlmin({collapseWhitespace: true, removeComments:true})
+			)
+		)		
 		.pipe(gulp.dest(path.build.html))
 		.pipe(reload({stream: true}));
 });
@@ -94,7 +100,7 @@ gulp.task('js:build', function () {
 		.pipe(include({
 				extensions: "js",
 				hardFail: true,
-				includePaths: [path.slick, path.foundation + 'dist//js/plugins', path.whatinput, path.jquery, path.src.jsfolder]
+				includePaths: [path.slick, path.foundation + 'dist/js/plugins', path.whatinput, path.jquery, path.src.jsfolder]
 			}).on('error', notify.onError(
 					{
 						message: "<%= error.message %>",
